@@ -12,11 +12,11 @@ RUN apt-get update && \
       aspcud \
       vim \
       gcc \
+      ocamlbuild \
       m4 && \
     echo "yes" >> /tmp/yes.txt && \
-    opam init --disable-sandboxing -y < /tmp/yes.txt && \
-    opam install -y cil
-
+    opam init --disable-sandboxing -y < /tmp/yes.txt
+RUN git clone https://github.com/cil-project/cil.git /cil && cd /cil; ./configure; make -j32; make install
 RUN mkdir -p /opt/genprog
 WORKDIR /opt/genprog
 ADD Makefile Makefile
