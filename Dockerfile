@@ -13,6 +13,7 @@ RUN apt-get update && \
       vim \
       gcc \
       ocamlbuild \
+      wget \
       m4 && \
     echo "yes" >> /tmp/yes.txt && \
     opam init --disable-sandboxing -y < /tmp/yes.txt
