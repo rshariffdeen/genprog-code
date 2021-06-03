@@ -16,7 +16,10 @@ RUN apt-get update && \
       m4 && \
     echo "yes" >> /tmp/yes.txt && \
     opam init --disable-sandboxing -y < /tmp/yes.txt
-RUN git clone https://github.com/cil-project/cil.git /cil && cd /cil; ./configure; make -j32; make install
+RUN wget http://downloads.sourceforge.net/project/cil/cil/cil-1.7.3.tar.gz && \
+    tar xvzf cil-1.7.3.tar.gz && \
+    cd cil-1.7.3 && ./configure; make -j32; make install
+
 RUN mkdir -p /opt/genprog
 WORKDIR /opt/genprog
 ADD Makefile Makefile
