@@ -13,6 +13,8 @@ RUN apt-get update && \
       vim \
       gcc \
       ocamlbuild \
+      camlp4 \
+      ocaml-findlib \
       wget \
       m4 && \
     echo "yes" >> /tmp/yes.txt && \
