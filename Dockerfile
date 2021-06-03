@@ -36,5 +36,4 @@ RUN mkdir bin && \
 ENV PATH "/opt/genprog/bin:${PATH}"
 
 VOLUME /opt/genprog
-ADD cil-cg.tar.gz /opt
 
