@@ -1,0 +1,38 @@
+FROM ubuntu:14.04
+MAINTAINER Ridwan Shariffdeen <rshariffdeen@gmail.com>
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends software-properties-common && \
+    add-apt-repository -y ppa:avsm/ppa && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+      aspcud \
+      build-essential \
+      camlp4 \
+      gcc \
+      jq \
+      m4 \
+      opam \
+      ocaml \
+      vim \
+      wget && \
+    echo "yes" >> /tmp/yes.txt && \
+    opam init --disable-sandboxing -y < /tmp/yes.txt
+
+RUN git clone -b releases/v3.0 --single-branch https://github.com/rshariffdeen/genprog-code.git /opt/genprog
+RUN cd /usr/lib/ocaml/; ln -s libcamlstr.a libstr.a
+RUN cd /opt/genprog && tar -xf cil-1.3.7.tar.gz
+ENV CIL /opt/genprog/cil-1.3.7
+RUN cd $CIL; ./configure; make
+RUN cd /opt/genprog/src; make
+
+RUN cd /opt/genprog && mkdir bin && \
+    eval $(opam config env) && \
+    make && \
+    mv src/repair bin/genprog && \
+    ln -s bin/genprog bin/repair && \
+    mv src/distserver bin/distserver && \
+    mv src/nhtserver bin/nhtserver
+
+RUN opam install -y cil
+ENV PATH "/root/.opam/default/bin/:/opt/genprog/bin:${PATH}"
+VOLUME /opt/genprog
